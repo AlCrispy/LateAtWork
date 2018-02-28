@@ -1,9 +1,6 @@
-package main.java.starter;
+package com.late.work;
 
 import java.util.Random;
-
-import main.java.MyHomePlace;
-import main.java.MyWorkPlace;
 
 public class Main {
 	

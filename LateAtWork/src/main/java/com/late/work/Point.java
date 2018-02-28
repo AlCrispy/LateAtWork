@@ -1,4 +1,4 @@
-package main.java;
+package com.late.work;
 
 public class Point {
 	
