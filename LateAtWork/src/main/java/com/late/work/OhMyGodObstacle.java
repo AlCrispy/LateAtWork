@@ -1,13 +1,15 @@
 package com.late.work;
 
-public class OhMyGodObstacles {
+public class OhMyGodObstacle {
 	
 	private Point a;
 	private Point b;
 	private Point c;
 	
-	public OhMyGodObstacles(int ax, int ay, int bx, int by, int cx, int cy) {
-		
+	public OhMyGodObstacle(int ax, int ay, int bx, int by, int cx, int cy) {
+		this.setA(ax, ay);
+		this.setB(bx, by);
+		this.setC(cx, cy);
 	}
 
 	public Point getA() {
