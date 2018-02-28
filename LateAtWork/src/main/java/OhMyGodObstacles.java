@@ -7,7 +7,9 @@ public class OhMyGodObstacles {
 	private Point c;
 	
 	public OhMyGodObstacles(int ax, int ay, int bx, int by, int cx, int cy) {
-		
+		this.setA(ax, ay);
+		this.setB(bx, by);
+		this.setC(cx, cy);
 	}
 
 	public Point getA() {
