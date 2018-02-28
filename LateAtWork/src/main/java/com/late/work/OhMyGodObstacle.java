@@ -46,7 +46,11 @@ public class OhMyGodObstacle {
 		this.c = point;
 	}
 	
-	public boolean isMyPointInsideRouteArea(Point p1, Point p2) {
+	public boolean isMyObstaclesInsideRoute(Point p1, Point p2) {
+		// TODO capire come identificare se un oggetto passa in messo alla retta ipotetica passante da p1 a p2
+		
+		//massimi e minimi, conoscendo questi valori so qual'è 
+		//l'area che devo prendere in considerazione sul piano 2d
 		int minX, maxX, maxY, minY;
 		if(p1.getX() < p2.getX()) {
 			maxX = p2.getX();
@@ -63,6 +67,60 @@ public class OhMyGodObstacle {
 			maxY = p1.getY();
 			minY = p2.getY();
 		}
-		return true;
+
+		boolean isAContained = checkPointA(minX, maxX, minY, maxY);
+		boolean isBContained = checkPointB(minX, maxX, minY, maxY);
+		boolean isCContained = checkPointC(minX, maxX, minY, maxY);
+		
+		return false;
 	}
+
+	private boolean checkPointA(int minX, int maxX, int minY, int maxY) {
+		boolean isXContained = false;
+		boolean isYContained = false;
+		boolean isContained = false; 
+		if(this.getA().getX() < maxX && this.getA().getX() > minX) {
+			isXContained = true;
+		}
+		if(this.getA().getY() < maxY && this.getA().getY() > minY) {
+			isYContained = true;
+		}
+		if(isXContained && isYContained) {
+			isContained = true;
+		}
+		return isContained;
+	}
+	
+	private boolean checkPointB(int minX, int maxX, int minY, int maxY) {
+		boolean isXContained = false;
+		boolean isYContained = false;
+		boolean isContained = false; 
+		if(this.getB().getX() < maxX && this.getB().getX() > minX) {
+			isXContained = true;
+		}
+		if(this.getB().getY() < maxY && this.getB().getY() > minY) {
+			isYContained = true;
+		}
+		if(isXContained && isYContained) {
+			isContained = true;
+		}
+		return isContained;
+	}
+	
+	private boolean checkPointC(int minX, int maxX, int minY, int maxY) {
+		boolean isXContained = false;
+		boolean isYContained = false;
+		boolean isContained = false; 
+		if(this.getC().getX() < maxX && this.getC().getX() > minX) {
+			isXContained = true;
+		}
+		if(this.getC().getY() < maxY && this.getC().getY() > minY) {
+			isYContained = true;
+		}
+		if(isXContained && isYContained) {
+			isContained = true;
+		}
+		return isContained;
+	}
+	
 }
