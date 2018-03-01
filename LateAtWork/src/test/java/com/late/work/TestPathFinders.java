@@ -8,7 +8,7 @@ import com.late.work.finder.PathFinder;
 import com.late.work.finder.PathFinder1;
 import com.late.work.finder.PathFinder2;
 
-public class TestCase1 {
+public class TestPathFinders {
 
 	@Test
 	public void testPathFinder1() {

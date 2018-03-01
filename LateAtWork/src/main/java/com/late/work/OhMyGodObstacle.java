@@ -112,4 +112,19 @@ public class OhMyGodObstacle {
 		}
 		return isContained;
 	}
+
+	public boolean intersect(Line line) {
+		boolean intersect = false;
+		for(Line l: getLines()) {
+			intersect = intersect || l.intersect(line);
+		}
+		return intersect;
+	}
+
+	private Line[] getLines() {
+		Line l1 = new Line(a,b);
+		Line l2 = new Line(b,c);
+		Line l3 = new Line(c,a);
+		return new Line[]{l1,l2,l3};
+	}
 }
