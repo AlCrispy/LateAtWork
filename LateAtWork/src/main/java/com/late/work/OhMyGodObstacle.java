@@ -1,10 +1,14 @@
 package com.late.work;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OhMyGodObstacle {
 	
 	private Point a;
 	private Point b;
 	private Point c;
+	private Boolean imInTheMiddle = false;
 	
 	public OhMyGodObstacle(int ax, int ay, int bx, int by, int cx, int cy) {
 		this.setA(ax, ay);
@@ -51,7 +55,10 @@ public class OhMyGodObstacle {
 		
 		//massimi e minimi, conoscendo questi valori so qual'è 
 		//l'area che devo prendere in considerazione sul piano 2d
-		int minX, maxX, maxY, minY;
+		int minX; 
+		int maxX;
+		int maxY;
+		int minY;
 		if(p1.getX() < p2.getX()) {
 			maxX = p2.getX();
 			minX = p1.getX();
@@ -68,21 +75,36 @@ public class OhMyGodObstacle {
 			minY = p2.getY();
 		}
 
-		boolean isAContained = checkPointA(minX, maxX, minY, maxY);
-		boolean isBContained = checkPointB(minX, maxX, minY, maxY);
-		boolean isCContained = checkPointC(minX, maxX, minY, maxY);
+		List<Boolean> listPointInside = new ArrayList<>();
+		listPointInside.add(checkPoint(this.getA().getX(), this.getA().getY(), minX, maxX, minY, maxY));
+		listPointInside.add(checkPoint(this.getA().getX(), this.getA().getY(), minX, maxX, minY, maxY));
+		listPointInside.add(checkPoint(this.getA().getX(), this.getA().getY(), minX, maxX, minY, maxY));
+		
+		boolean atLeast2Inside = checkAtList2InsideArea(listPointInside);
+		
+		
 		
 		return false;
 	}
 
-	private boolean checkPointA(int minX, int maxX, int minY, int maxY) {
+	private boolean checkAtList2InsideArea(List<Boolean> listed) {
+		int counter = 0;
+		for (Boolean isPointInside : listed) {
+			if(isPointInside) {
+				counter++;
+			}
+		}
+		return counter >= 2 ? true : false;
+	}
+
+	private boolean checkPoint(int x, int y, int minX, int maxX, int minY, int maxY) {
 		boolean isXContained = false;
 		boolean isYContained = false;
 		boolean isContained = false; 
-		if(this.getA().getX() < maxX && this.getA().getX() > minX) {
+		if(x < maxX && x > minX) {
 			isXContained = true;
 		}
-		if(this.getA().getY() < maxY && this.getA().getY() > minY) {
+		if(y < maxY && y > minY) {
 			isYContained = true;
 		}
 		if(isXContained && isYContained) {
@@ -90,37 +112,4 @@ public class OhMyGodObstacle {
 		}
 		return isContained;
 	}
-	
-	private boolean checkPointB(int minX, int maxX, int minY, int maxY) {
-		boolean isXContained = false;
-		boolean isYContained = false;
-		boolean isContained = false; 
-		if(this.getB().getX() < maxX && this.getB().getX() > minX) {
-			isXContained = true;
-		}
-		if(this.getB().getY() < maxY && this.getB().getY() > minY) {
-			isYContained = true;
-		}
-		if(isXContained && isYContained) {
-			isContained = true;
-		}
-		return isContained;
-	}
-	
-	private boolean checkPointC(int minX, int maxX, int minY, int maxY) {
-		boolean isXContained = false;
-		boolean isYContained = false;
-		boolean isContained = false; 
-		if(this.getC().getX() < maxX && this.getC().getX() > minX) {
-			isXContained = true;
-		}
-		if(this.getC().getY() < maxY && this.getC().getY() > minY) {
-			isYContained = true;
-		}
-		if(isXContained && isYContained) {
-			isContained = true;
-		}
-		return isContained;
-	}
-	
 }
