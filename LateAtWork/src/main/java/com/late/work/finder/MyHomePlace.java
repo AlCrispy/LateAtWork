@@ -1,4 +1,6 @@
-package com.late.work;
+package com.late.work.finder;
+
+import com.late.work.Point;
 
 public class MyHomePlace extends Point{
 	

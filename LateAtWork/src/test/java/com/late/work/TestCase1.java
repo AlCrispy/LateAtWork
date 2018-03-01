@@ -4,6 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.late.work.finder.PathFinder;
+import com.late.work.finder.PathFinder1;
+import com.late.work.finder.PathFinder2;
+
 public class TestCase1 {
 
 	@Test
