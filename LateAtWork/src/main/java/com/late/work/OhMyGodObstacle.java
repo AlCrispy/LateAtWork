@@ -127,4 +127,8 @@ public class OhMyGodObstacle {
 		Line l3 = new Line(c,a);
 		return new Line[]{l1,l2,l3};
 	}
+
+	public Point[] getVertexs() {
+		return new Point[]{a,b,c};
+	}
 }

@@ -57,4 +57,9 @@ public class Line {
 		return (num > nA && num < nB);
 	}
 
+	public double distance() {
+		return Math.hypot(p1.getX()-p2.getX(), p1.getY()-p2.getY());
+		// return Math.sqrt(Math.pow((p1.getX()-p2.getX()), 2) + Math.pow((p1.getY()-p2.getY()), 2));
+	}
+
 }
