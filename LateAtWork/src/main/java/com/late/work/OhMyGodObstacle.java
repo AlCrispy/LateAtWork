@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OhMyGodObstacle {
-	
+
 	private Point a;
 	private Point b;
 	private Point c;
 	private Boolean imInTheMiddle = false;
-	
+
 	public OhMyGodObstacle(int ax, int ay, int bx, int by, int cx, int cy) {
 		this.setA(ax, ay);
 		this.setB(bx, by);
@@ -36,7 +36,7 @@ public class OhMyGodObstacle {
 		point.setX(x);
 		point.setY(y);
 		this.b = point;
-		
+
 	}
 
 	public Point getC() {
@@ -49,25 +49,26 @@ public class OhMyGodObstacle {
 		point.setY(y);
 		this.c = point;
 	}
-	
+
 	public boolean isMyObstaclesInsideRoute(Point p1, Point p2) {
-		// TODO capire come identificare se un oggetto passa in messo alla retta ipotetica passante da p1 a p2
-		
-		//massimi e minimi, conoscendo questi valori so qual'è 
-		//l'area che devo prendere in considerazione sul piano 2d
-		int minX; 
+		// TODO capire come identificare se un oggetto passa in messo alla retta
+		// ipotetica passante da p1 a p2
+
+		// massimi e minimi, conoscendo questi valori so qual'è
+		// l'area che devo prendere in considerazione sul piano 2d
+		int minX;
 		int maxX;
 		int maxY;
 		int minY;
-		if(p1.getX() < p2.getX()) {
+		if (p1.getX() < p2.getX()) {
 			maxX = p2.getX();
 			minX = p1.getX();
 		} else {
 			maxX = p1.getX();
 			minX = p2.getX();
 		}
-		
-		if(p1.getY() < p2.getY()) {
+
+		if (p1.getY() < p2.getY()) {
 			maxY = p2.getY();
 			minY = p1.getY();
 		} else {
@@ -79,18 +80,16 @@ public class OhMyGodObstacle {
 		listPointInside.add(checkPoint(this.getA().getX(), this.getA().getY(), minX, maxX, minY, maxY));
 		listPointInside.add(checkPoint(this.getA().getX(), this.getA().getY(), minX, maxX, minY, maxY));
 		listPointInside.add(checkPoint(this.getA().getX(), this.getA().getY(), minX, maxX, minY, maxY));
-		
+
 		boolean atLeast2Inside = checkAtList2InsideArea(listPointInside);
-		
-		
-		
+
 		return false;
 	}
 
 	private boolean checkAtList2InsideArea(List<Boolean> listed) {
 		int counter = 0;
 		for (Boolean isPointInside : listed) {
-			if(isPointInside) {
+			if (isPointInside) {
 				counter++;
 			}
 		}
@@ -100,14 +99,14 @@ public class OhMyGodObstacle {
 	private boolean checkPoint(int x, int y, int minX, int maxX, int minY, int maxY) {
 		boolean isXContained = false;
 		boolean isYContained = false;
-		boolean isContained = false; 
-		if(x < maxX && x > minX) {
+		boolean isContained = false;
+		if (x < maxX && x > minX) {
 			isXContained = true;
 		}
-		if(y < maxY && y > minY) {
+		if (y < maxY && y > minY) {
 			isYContained = true;
 		}
-		if(isXContained && isYContained) {
+		if (isXContained && isYContained) {
 			isContained = true;
 		}
 		return isContained;
@@ -115,20 +114,20 @@ public class OhMyGodObstacle {
 
 	public boolean intersect(Line line) {
 		boolean intersect = false;
-		for(Line l: getLines()) {
+		for (Line l : getLines()) {
 			intersect = intersect || l.intersect(line);
 		}
 		return intersect;
 	}
 
 	private Line[] getLines() {
-		Line l1 = new Line(a,b);
-		Line l2 = new Line(b,c);
-		Line l3 = new Line(c,a);
-		return new Line[]{l1,l2,l3};
+		Line l1 = new Line(a, b);
+		Line l2 = new Line(b, c);
+		Line l3 = new Line(c, a);
+		return new Line[] { l1, l2, l3 };
 	}
 
 	public Point[] getVertexs() {
-		return new Point[]{a,b,c};
+		return new Point[] { a, b, c };
 	}
 }

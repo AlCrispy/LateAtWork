@@ -35,6 +35,13 @@ public class TestObstacles {
 		assertTrue(nearest.getA().getX()==20);
 	}
 
-
+	@Test
+	public void testFindVisiblePoints() {
+		OhMyGodObstacle o1 = new OhMyGodObstacle(0, 0, 0, 10, 10, 0);
+		Point p = new Point(50,20);
+		Point[] visibles = Utils.findVisiblePoints(p,o1);
+		System.out.println(visibles.length);
+		assertTrue(visibles.length==2);
+	}
 
 }

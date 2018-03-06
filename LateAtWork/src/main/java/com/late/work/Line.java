@@ -4,8 +4,8 @@ import java.awt.geom.Line2D;
 
 public class Line {
 
-	private Point p1;
-	private Point p2;
+	public Point p1;
+	public Point p2;
 
 	public Line(Point p1, Point p2) {
 		this.p1 = p1;
@@ -43,6 +43,7 @@ public class Line {
 		int y2b = line2.getP2().getY();
 		return Line2D.linesIntersect(x1a, y1a, x2a, y2a, x1b, y1b, x2b, y2b);
 	}
+
 	
 	/**
 	 * Check if num is between n1 and n2 (no matter which is the greater)
