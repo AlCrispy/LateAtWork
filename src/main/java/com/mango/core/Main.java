@@ -8,19 +8,18 @@ import java.util.logging.Logger;
 
 public class Main {
 
+	public static final String LOOK_AND_FEEL = "com.formdev.flatlaf.FlatDarkLaf";
+
 	public static void main(String args[]) {
 
 		startupLookAndFeel();
-
-		TimeManagementFrame mainframe = new TimeManagementFrame();
-
 		//Creating the Frame
-		mainframe.timeManagementFrame();
+		new TimeManagementFrame();
 	}
 
 	private static void startupLookAndFeel() {
 		try {
-			UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
+			UIManager.setLookAndFeel(LOOK_AND_FEEL);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
 			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 		}

@@ -1,28 +1,24 @@
 package main.java.com.mango.core.ui;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class TimeManagementFrame {
+
+public class TimeManagementFrame extends JFrame {
 
     public static final String FRAME_NAME = "Time Management Tool";
 
-    public void timeManagementFrame() {
-
-        JFrame frame = new JFrame(FRAME_NAME);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
+    public TimeManagementFrame() {
 
         PanelRepository repository = new PanelRepository();
-
         JPanel workingPanel = repository.createWorkingPanel();
-        JPanel LoggingPanel = repository.createLoggingPanel();
-        JPanel ButtonBarPanel = repository.createButtonBarPanel();
 
+        getContentPane().add(workingPanel);
+        setTitle(FRAME_NAME);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 500);
+        setResizable(false);
+        setVisible(true);
 
-        //Adding Components to the frame.
-        frame.getContentPane().add(BorderLayout.CENTER, workingPanel);
-
-        frame.setVisible(true);
     }
+
 }
