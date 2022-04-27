@@ -65,7 +65,7 @@ public class TimeManagementArithmetics {
     }
 
     private TimeSpace cornerCaseLunchEnd(TimeSpace lunchEnd, WorkTimeResponse workTimeResponse) {
-        if(lunchEnd.getIntMinutes() > 30 && lunchEnd.getIntHours() >= 14) {
+        if(lunchEnd.getIntMinutes() > 30 && lunchEnd.getIntHours() >= 14 || lunchEnd.getIntHours() > 14) {
             lunchEnd = roundToNearestQuarter(lunchEnd);
             List adjustmentList = workTimeResponse.getAdjustment();
             adjustmentList.add("End of lunch postponed to nearest quarter!");
