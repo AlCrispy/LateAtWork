@@ -34,7 +34,14 @@ public class PanelRepository {
         JButton buttonExecute = new JButton(EXECUTE);
         buttonExecute.addActionListener(event -> {
             WorkTimeResponse response = arithmetics.performArithmeticsForExactEndWorkTime(startWorkTextfield.getText(), startLunchTextfield.getText(), endLunchTextfield.getText());
-            infoArea.setText(response.getMorningWorkTime() + "\n" + response.getRemainingTimeToWork() + "\n" + response.getWorkUntil());
+            String textResponse = EMPTY_STRING;
+            for(Object adjustment: response.getAdjustment()){
+                textResponse += adjustment +"\n";
+            }
+            textResponse += response.getMorningWorkTime() + "\n"
+                            + response.getRemainingTimeToWork() + "\n"
+                            + response.getWorkUntil();
+            infoArea.setText(textResponse);
         });
         JButton buttonReset = new JButton(RESET);
         buttonReset.addActionListener(event -> {
