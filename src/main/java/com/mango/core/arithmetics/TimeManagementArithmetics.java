@@ -7,6 +7,13 @@ import java.util.List;
 
 public class TimeManagementArithmetics {
 
+    public static final int FULL_DAY_HOURS = 8;
+    public static final int FULL_MINUTE = 60;
+    public static final int ONE_HOUR = 1;
+    public static final int TWELVE_O_CLOCK = 12;
+    public static final int HALF_AN_HOUR = 30;
+    public static final int QUARTER_HOUR = 15;
+
     public WorkTimeResponse performArithmeticsForExactEndWorkTime(String timeWorkStart, String timeLunchStart, String timeLunchEnd) {
         TimeSpace workStart = new TimeSpace(timeWorkStart);
         TimeSpace lunchStart = new TimeSpace(timeLunchStart);
@@ -28,18 +35,18 @@ public class TimeManagementArithmetics {
         int hoursDiff = lunchStart.getIntHours() - workStart.getIntHours();
         int minutesDiff = lunchStart.getIntMinutes() - workStart.getIntMinutes();
         if (minutesDiff < 0) {
-            minutesDiff = 60 + minutesDiff;
-            hoursDiff -= 1;
+            minutesDiff = FULL_MINUTE + minutesDiff;
+            hoursDiff -= ONE_HOUR;
         }
         morningWorked.setIntHours(hoursDiff);
         morningWorked.setIntMinutes(minutesDiff);
         System.out.println("Morning work time: " + morningWorked);
 
         TimeSpace timeRemainingToWork = new TimeSpace();
-        hoursDiff = 8 - morningWorked.getIntHours();
+        hoursDiff = FULL_DAY_HOURS - morningWorked.getIntHours();
         if (morningWorked.getIntMinutes() > 0) {
-            minutesDiff = 60 - morningWorked.getIntMinutes();
-            hoursDiff -= 1;
+            minutesDiff = FULL_MINUTE - morningWorked.getIntMinutes();
+            hoursDiff -= ONE_HOUR;
         }
         timeRemainingToWork.setIntHours(hoursDiff);
         timeRemainingToWork.setIntMinutes(minutesDiff);
@@ -48,9 +55,9 @@ public class TimeManagementArithmetics {
         TimeSpace workUntil = new TimeSpace();
         hoursDiff = lunchEnd.getIntHours() + timeRemainingToWork.getIntHours();
         minutesDiff = lunchEnd.getIntMinutes() + timeRemainingToWork.getIntMinutes();
-        if (minutesDiff >= 60) {
-            minutesDiff -= 60;
-            hoursDiff += 1;
+        if (minutesDiff >= FULL_MINUTE) {
+            minutesDiff -= FULL_MINUTE;
+            hoursDiff += ONE_HOUR;
         }
         workUntil.setIntHours(hoursDiff);
         workUntil.setIntMinutes(minutesDiff);
@@ -65,7 +72,7 @@ public class TimeManagementArithmetics {
     }
 
     private TimeSpace cornerCaseLunchEnd(TimeSpace lunchEnd, WorkTimeResponse workTimeResponse) {
-        if(lunchEnd.getIntMinutes() > 30 && lunchEnd.getIntHours() >= 14 || lunchEnd.getIntHours() > 14) {
+        if(lunchEnd.getIntMinutes() > HALF_AN_HOUR && lunchEnd.getIntHours() >= 14 || lunchEnd.getIntHours() > 14) {
             lunchEnd = roundToNearestQuarter(lunchEnd);
             List adjustmentList = workTimeResponse.getAdjustment();
             adjustmentList.add("End of lunch postponed to nearest quarter!");
@@ -75,8 +82,8 @@ public class TimeManagementArithmetics {
     }
 
     private TimeSpace cornerCaseLunchStart(TimeSpace lunchStart, WorkTimeResponse workTimeResponse) {
-        if( lunchStart.getIntHours() < 12 ) {
-            lunchStart.setIntHours(12);
+        if( lunchStart.getIntHours() < TWELVE_O_CLOCK) {
+            lunchStart.setIntHours(TWELVE_O_CLOCK);
             lunchStart.setIntMinutes(0);
             List adjustmentList = workTimeResponse.getAdjustment();
             adjustmentList.add("Start of lunch postponed to 12 o'clock!");
@@ -86,14 +93,14 @@ public class TimeManagementArithmetics {
     }
 
     private TimeSpace cornerCaseWorkStart(TimeSpace workStart, WorkTimeResponse workTimeResponse) {
-        if(workStart.getIntMinutes() < 15 && workStart.getIntHours() < 8) {
-            workStart.setIntHours(8);
-            workStart.setIntMinutes(15);
+        if(workStart.getIntMinutes() < QUARTER_HOUR && workStart.getIntHours() < FULL_DAY_HOURS) {
+            workStart.setIntHours(FULL_DAY_HOURS);
+            workStart.setIntMinutes(QUARTER_HOUR);
             List adjustmentList = workTimeResponse.getAdjustment();
             adjustmentList.add("Start of work postponed 8 and a quarter!");
             workTimeResponse.setAdjustment(adjustmentList);
         }
-        if (workStart.getIntMinutes() > 30 && workStart.getIntHours() >= 9 || workStart.getIntHours() > 9){
+        if (workStart.getIntMinutes() > HALF_AN_HOUR && workStart.getIntHours() >= 9 || workStart.getIntHours() > 9){
             workStart = roundToNearestQuarter(workStart);
             List adjustmentList = workTimeResponse.getAdjustment();
             adjustmentList.add("Start of work postponed to nearest quarter!");
@@ -104,15 +111,15 @@ public class TimeManagementArithmetics {
 
     private TimeSpace roundToNearestQuarter(TimeSpace workStart) {
         int intMinutes = workStart.getIntMinutes();
-        if(intMinutes <= 15) {
-            workStart.setIntMinutes(15);
-        } else if (intMinutes <= 30 && intMinutes > 15) {
-            workStart.setIntMinutes(30);
-        } else if (intMinutes <= 45  && intMinutes > 30) {
+        if(intMinutes <= QUARTER_HOUR) {
+            workStart.setIntMinutes(QUARTER_HOUR);
+        } else if (intMinutes <= HALF_AN_HOUR && intMinutes > QUARTER_HOUR) {
+            workStart.setIntMinutes(HALF_AN_HOUR);
+        } else if (intMinutes <= 45  && intMinutes > HALF_AN_HOUR) {
             workStart.setIntMinutes(45);
         } else {
             workStart.setIntMinutes(0);
-            workStart.setIntHours(workStart.getIntHours() + 1);
+            workStart.setIntHours(workStart.getIntHours() + ONE_HOUR);
         }
         return workStart;
     }
