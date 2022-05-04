@@ -93,7 +93,7 @@ public class TimeManagementArithmetics {
     }
 
     private TimeSpace cornerCaseWorkStart(TimeSpace workStart, WorkTimeResponse workTimeResponse) {
-        if(workStart.getIntMinutes() < QUARTER_HOUR && workStart.getIntHours() < FULL_DAY_HOURS) {
+        if(workStart.getIntMinutes() < QUARTER_HOUR && workStart.getIntHours() <= FULL_DAY_HOURS) {
             workStart.setIntHours(FULL_DAY_HOURS);
             workStart.setIntMinutes(QUARTER_HOUR);
             List adjustmentList = workTimeResponse.getAdjustment();
