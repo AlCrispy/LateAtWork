@@ -13,6 +13,10 @@ public class TimeManagementArithmetics {
     public static final int TWELVE_O_CLOCK = 12;
     public static final int HALF_AN_HOUR = 30;
     public static final int QUARTER_HOUR = 15;
+    private static final int MORNING_EIGHT = 8 ;
+
+    public static final int MORNING_NINE = 9;
+    public static final int RESET_MINUTES = 0;
 
     public WorkTimeResponse performArithmeticsForExactEndWorkTime(String timeWorkStart, String timeLunchStart, String timeLunchEnd) {
         TimeSpace workStart = new TimeSpace(timeWorkStart);
@@ -84,7 +88,7 @@ public class TimeManagementArithmetics {
     private TimeSpace cornerCaseLunchStart(TimeSpace lunchStart, WorkTimeResponse workTimeResponse) {
         if( lunchStart.getIntHours() < TWELVE_O_CLOCK) {
             lunchStart.setIntHours(TWELVE_O_CLOCK);
-            lunchStart.setIntMinutes(0);
+            lunchStart.setIntMinutes(RESET_MINUTES);
             List adjustmentList = workTimeResponse.getAdjustment();
             adjustmentList.add("Start of lunch postponed to 12 o'clock!");
             workTimeResponse.setAdjustment(adjustmentList);
@@ -93,14 +97,14 @@ public class TimeManagementArithmetics {
     }
 
     private TimeSpace cornerCaseWorkStart(TimeSpace workStart, WorkTimeResponse workTimeResponse) {
-        if(workStart.getIntMinutes() < QUARTER_HOUR && workStart.getIntHours() <= FULL_DAY_HOURS) {
-            workStart.setIntHours(FULL_DAY_HOURS);
+        if(workStart.getIntMinutes() < QUARTER_HOUR && workStart.getIntHours() < MORNING_EIGHT) {
+            workStart.setIntHours(MORNING_EIGHT);
             workStart.setIntMinutes(QUARTER_HOUR);
             List adjustmentList = workTimeResponse.getAdjustment();
             adjustmentList.add("Start of work postponed 8 and a quarter!");
             workTimeResponse.setAdjustment(adjustmentList);
         }
-        if (workStart.getIntMinutes() > HALF_AN_HOUR && workStart.getIntHours() >= 9 || workStart.getIntHours() > 9){
+        if (workStart.getIntMinutes() > HALF_AN_HOUR && workStart.getIntHours() >= MORNING_NINE || workStart.getIntHours() > MORNING_NINE){
             workStart = roundToNearestQuarter(workStart);
             List adjustmentList = workTimeResponse.getAdjustment();
             adjustmentList.add("Start of work postponed to nearest quarter!");
@@ -118,7 +122,7 @@ public class TimeManagementArithmetics {
         } else if (intMinutes <= 45  && intMinutes > HALF_AN_HOUR) {
             workStart.setIntMinutes(45);
         } else {
-            workStart.setIntMinutes(0);
+            workStart.setIntMinutes(RESET_MINUTES);
             workStart.setIntHours(workStart.getIntHours() + ONE_HOUR);
         }
         return workStart;
