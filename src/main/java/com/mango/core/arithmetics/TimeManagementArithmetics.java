@@ -30,7 +30,7 @@ public class TimeManagementArithmetics {
         WorkTimeResponse workTimeResponse = new WorkTimeResponse();
         workStart = cornerCaseWorkStart(workStart, workTimeResponse);
         lunchStart = cornerCaseLunchStart(lunchStart, workTimeResponse);
-        lunchEnd = cornerCaseLunchEnd(lunchEnd, workTimeResponse);
+        lunchEnd = cornerCaseLunchEnd(lunchStart, lunchEnd, workTimeResponse);
 
         TimeSpace morningWorked = new TimeSpace();
         morningWorked.setHours("8");
@@ -75,14 +75,32 @@ public class TimeManagementArithmetics {
         return workTimeResponse;
     }
 
-    private TimeSpace cornerCaseLunchEnd(TimeSpace lunchEnd, WorkTimeResponse workTimeResponse) {
+    private TimeSpace cornerCaseLunchEnd(TimeSpace lunchStart, TimeSpace lunchEnd, WorkTimeResponse workTimeResponse) {
+        List adjustmentList = workTimeResponse.getAdjustment();
+        TimeSpace lunchTime = new TimeSpace();
+        lunchTime.setIntMinutes(60 - lunchStart.getIntMinutes() + lunchEnd.getIntMinutes());
+        if (lunchLessOfThreeQuarter(lunchTime)) {
+            int minutesDifference = 45 - lunchTime.getIntMinutes();
+            if (lunchEnd.getIntMinutes() + minutesDifference >= 60){
+                lunchEnd.setIntMinutes(lunchEnd.getIntMinutes() + minutesDifference - 60);
+                lunchEnd.setIntHours(lunchEnd.getIntHours() + 1);
+            }
+            lunchEnd.setIntMinutes(lunchEnd.getIntMinutes() + minutesDifference);
+            adjustmentList.add("End of lunch postponed to match 45 minutes of lunchtime!");
+        }
         if(lunchEnd.getIntMinutes() > HALF_AN_HOUR && lunchEnd.getIntHours() >= 14 || lunchEnd.getIntHours() > 14) {
             lunchEnd = roundToNearestQuarter(lunchEnd);
-            List adjustmentList = workTimeResponse.getAdjustment();
             adjustmentList.add("End of lunch postponed to nearest quarter!");
-            workTimeResponse.setAdjustment(adjustmentList);
         }
+        workTimeResponse.setAdjustment(adjustmentList);
         return lunchEnd;
+    }
+
+    private boolean lunchLessOfThreeQuarter(TimeSpace lunchTime) {
+        if (lunchTime.getIntMinutes() < 45) {
+            return true;
+        }
+        return false;
     }
 
     private TimeSpace cornerCaseLunchStart(TimeSpace lunchStart, WorkTimeResponse workTimeResponse) {
